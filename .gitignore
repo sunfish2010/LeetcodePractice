@@ -1,3 +1,5 @@
 .editorconfig
 .lcpr_data/
 .vscode/
+.idea/
+main.py
