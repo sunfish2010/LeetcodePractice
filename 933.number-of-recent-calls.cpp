@@ -30,8 +30,19 @@ class RecentCounter {
 };
 
 /**
- * Your RecentCounter object will be instantiated and called as such:
- * RecentCounter* obj = new RecentCounter();
- * int param_1 = obj->ping(t);
+ *  Python 3
+from collections import deque
+
+class RecentCounter:
+
+    def __init__(self):
+        self.window = deque()
+
+    def ping(self, t: int) -> int:
+        self.window.append(t)
+        while t - self.window[0] > 3000:
+            self.window.popleft()
+        return len(self.window)
+
  */
 // @lc code=end
