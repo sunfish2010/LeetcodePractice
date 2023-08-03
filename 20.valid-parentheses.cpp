@@ -38,6 +38,22 @@ class Solution {
    private:
     std::unordered_map<char, char> lookup_table{{'}', '{'}, {')', '('}, {']', '['}};
 };
+
+/*
+    PYTHON implementation
+    
+    def isValid(self, s: str) -> bool:
+        brackets= []
+        left_brackets = {'(':')', '{':'}', '[':']'}
+        for c in s:
+            if c in left_brackets:
+                brackets.append(c)
+            else:
+                if len(brackets) == 0 or not c == left_brackets[brackets[-1]]:
+                    return False
+                brackets.pop()
+        return len(brackets) == 0
+*/
 // @lc code=end
 
 /*
