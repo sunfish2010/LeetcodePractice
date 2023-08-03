@@ -29,25 +29,20 @@ struct TreeNode {
 
 class Solution {
    public:
-    int maxDepth(TreeNode *root) {
-        if (!root) {
-            return 0;
-        }
-        traverse_tree(root, 1);
-        return max_depth;
+        int maxDepth(TreeNode *root) {
+        return traverse_tree(root);
     }
 
    private:
-    void traverse_tree(TreeNode *node, int level) {
+    int traverse_tree(TreeNode *node) {
         if (!node) {
-            return;
+            return 0;
         }
-        max_depth = std::max(level, max_depth);
-        traverse_tree(node->right, level + 1);
-        traverse_tree(node->left, level + 1);
+       
+        int left_height = traverse_tree(node->right) + 1;
+        int right_height = traverse_tree(node->left) + 1;
+        return max(left_height, right_height);
     }
-
-    int max_depth = 0;
 };
 // @lc code=end
 
