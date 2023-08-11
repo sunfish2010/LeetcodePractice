@@ -2,4 +2,5 @@
 .lcpr_data/
 .vscode/
 .idea/
+build/bazel*
 main.py
