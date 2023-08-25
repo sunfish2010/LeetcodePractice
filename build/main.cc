@@ -1,3 +1,6 @@
+/*
+This is just an empty template for testing own implementation.
+*/
 
 #include <vector>
 #include <string>
@@ -8,11 +11,16 @@ using namespace std;
 namespace{
     // Helper functions here.
 
+class Solution{
+    public:
+    
+    private:
+    
+};
+
 }
 
 
-int main() {
-    // Setting up test cases.
-unordered_map<string, std::function<float(float, const string&)>> tests;
+int main() {  
 
 }
