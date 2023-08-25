@@ -1,10 +1,13 @@
 /*
-WIP
+TODO: Add iterator for container.
+TODO: Remove magic numbers.
+Needs more testing.
 
-This is my own attemptation to implement unordered_map.
+This is my own attemptation to implement unordered_map using separate chaining.
 The implementation can be modified for unordered_set as well.
-
 */
+#ifndef SC_HASH_TABLE
+#define SC_HASH_TABLE
 
 #include <functional>
 #include <memory>
@@ -22,21 +25,26 @@ class SeparateChainingHashTable final : public HashTable<Key, Value> {
     table_ = std::vector<HashEntry>(size);
   }
 
-  Value& operator[] (const Key& key){
+  Value& operator[](const Key& key) {
     auto entry = find(key);
-    if(entry){
-        return entry->val;
+    if (entry) {
+      return entry->val;
     }
     // Variable not initialized, not sure how this is handled in STL.
     Value val;
     return insert(key, val)->val;
   }
 
-  bool contains(const Key& key) const{
-    return find(key) != nullptr;
-  }
+  bool contains(const Key& key) const { return find(key) != nullptr; }
 
-  // void erase(const Key& key) const;
+  void erase(const Key& key) {
+    if (!contains(key)) {
+      return;
+    }
+    delete_key(key);
+  }
+  // Not sure how iterator for unordered_map is implemented, from https://en.cppreference.com/w/cpp/iterator/iterator_tags 
+  // there are clearly many iterator types
 
  protected:
   struct HashEntry {
@@ -47,7 +55,7 @@ class SeparateChainingHashTable final : public HashTable<Key, Value> {
     HashEntry(const Key k, const Value v) : key(k), val(v) {}
   };
 
-  size_t hash(const Key& key) const{
+  size_t hash(const Key& key) const {
     size_t h = std::hash<Key>{}(key);
     h ^= (h >> 20) ^ (h >> 12) ^ (h >> 7) ^ (h >> 4);
     return h % (capacity_ - 1);
@@ -60,7 +68,8 @@ class SeparateChainingHashTable final : public HashTable<Key, Value> {
  private:
   using HashTable<Key, Value>::num_elements_;
 
-    std::shared_ptr<HashEntry> insert(const Key& key, const Value& val) {
+  std::shared_ptr<HashEntry> insert(const Key& key, const Value& val) {
+    // We want on average 5 items per table entry. Resize when half full.
     if (num_elements_ >= 10 * capacity_) {
       resize(2 * capacity_);
     }
@@ -81,17 +90,41 @@ class SeparateChainingHashTable final : public HashTable<Key, Value> {
     return inserted;
   }
 
-  std::shared_ptr<HashEntry> find(const Key& key) const{
+  void delete_key(const Key& key) {
+    size_t hash_index = hash(key);
+    if (table_[hash_index]) {
+      table_[hash_index] = nullptr;
+    } else {
+      auto curr = table_[hash_index];
+      if (curr->key == key) {
+        table_[hash_index] = curr->next;
+      }
+      while (curr->next) {
+        if (curr->next->key == key) {
+          curr->next = curr->next->next;
+          break;
+        }
+        curr = curr->next;
+      }
+    }
+    // Resize when a quarter full.
+    num_elements_--;
+    if (capacity_ > INIT_CAPACITY && num_elements_ <= 2 * capacity_) {
+      resize(capacity_ / 2);
+    }
+  }
+
+  std::shared_ptr<HashEntry> find(const Key& key) const {
     size_t hash_index = hash(key);
     if (!table_[hash_index]) {
       return nullptr;
     }
     auto curr = table_[hash_index];
     while (curr) {
-        if(curr->key == key){
-            return curr;
-        }
-        curr = curr->next;
+      if (curr->key == key) {
+        return curr;
+      }
+      curr = curr->next;
     }
     return nullptr;
   }
@@ -108,3 +141,5 @@ class SeparateChainingHashTable final : public HashTable<Key, Value> {
     *this = std::move(tmp);
   }
 };
+
+#endif

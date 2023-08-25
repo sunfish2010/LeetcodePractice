@@ -15,7 +15,7 @@ class HashTable{
 
     virtual bool contains(const Key& key) const = 0;
 
-    // virtual void erase(const Key& key) const = 0;
+    virtual void erase(const Key& key) = 0;
 
     protected:
     size_t num_elements_;
