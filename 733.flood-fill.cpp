@@ -6,9 +6,35 @@
  */
 
 // @lc code=start
+#include <vector>
+using namespace std;
 class Solution {
    public:
     vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        if(image[sr][sc] == color){
+            return image;
+        }
+        static vector<vector<int>> dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        int num_rows = image.size();
+        int num_cols = image[0].size();
+        int orig = image[sr][sc];
+         image[sr][sc] = color;
+        vector<vector<int>>to_visit = {{sr, sc}};
+        while(!to_visit.empty()){
+            int row = to_visit.back()[0];
+            int col = to_visit.back()[1];
+            to_visit.pop_back();
+            for(const auto&dir: dirs){
+                int next_row = row + dir[0];
+                int next_col = col + dir[1];
+                if(next_col >=0 && next_col < num_cols && next_row >=0 && next_row < num_rows && image[next_row][next_col] == orig){
+                    image[next_row][next_col] = color;
+                    to_visit.push_back({next_row, next_col});
+                }
+            }
+        }
+        return image;
+
     }
 };
 

@@ -9,6 +9,7 @@
 #include <vector>
 using namespace std;
 
+// DFS solution
 class Solution {
    public:
     int findCircleNum(vector<vector<int>>& isConnected) {
@@ -36,6 +37,61 @@ class Solution {
         }
     }
 };
+
+/* Union Find Solution.
+
+class UnionFind {
+   public:
+    UnionFind(int n) : parent(n), rank(n, 0) {
+        for (int i = 0; i < n; ++i) {
+            parent[i] = i;
+        }
+    }
+
+    int find(int x) {
+        if (x != parent[x]) {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
+    }
+
+    void union_set(int x, int y) {
+        int x_parent = find(x);
+        int y_parent = find(y);
+        if (rank[x_parent] < rank[y_parent]) {
+            parent[x_parent] = y_parent;
+        } else if (rank[x_parent] > rank[y_parent]) {
+            parent[y_parent] = x_parent;
+        } else {
+            parent[y_parent] = x_parent;
+            rank[x_parent]++;
+        }
+    }
+
+   private:
+    vector<int> parent;
+    vector<int> rank;
+};
+
+class Solution {
+   public:
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        size_t n = isConnected.size();
+        UnionFind circle(n);
+        int num = n;
+        for (size_t i = 0; i < n; ++i) {
+            for (size_t j = 0; j < n; ++j) {
+                if (isConnected[i][j] && circle.find(i) != circle.find(j)) {
+                    num--;
+                    circle.union_set(i, j);
+                }
+            }
+        }
+        return num;
+    }
+};
+
+*/
 // @lc code=end
 
 /*
