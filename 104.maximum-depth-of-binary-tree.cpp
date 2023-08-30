@@ -45,11 +45,7 @@ class Solution {
     }
 };
 
-<<<<<<< HEAD
-/*
-=======
 /* Iterative based approach.
->>>>>>> c763458 (unionfind)
 
  int depth = 0;
         if (!root) {
