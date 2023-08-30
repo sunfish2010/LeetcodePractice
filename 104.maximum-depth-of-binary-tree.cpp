@@ -44,6 +44,32 @@ class Solution {
         return max(left_height, right_height);
     }
 };
+
+/*
+
+ int depth = 0;
+        if (!root) {
+        return depth;
+        }
+        queue<TreeNode *> to_visit;
+        to_visit.push(root);
+        while (!to_visit.empty()) {
+            int num_nodes = to_visit.size();
+            depth++;
+            for (int i = 0; i < num_nodes; ++i) {
+                TreeNode *node = to_visit.front();
+                to_visit.pop();
+                if (node->left) {
+                to_visit.push(node->left);
+                }
+                if (node->right) {
+                to_visit.push(node->right);
+                }
+            }
+        }
+        return depth;
+
+*/
 // @lc code=end
 
 /*

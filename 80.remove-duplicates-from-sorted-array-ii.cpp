@@ -1,40 +1,33 @@
 /*
  * @lc app=leetcode id=80 lang=cpp
- * @lcpr version=21909
+ * @lcpr version=21913
  *
  * [80] Remove Duplicates from Sorted Array II
  */
 
 // @lc code=start
+#include <vector>
+using namespace std;
 class Solution {
    public:
     int removeDuplicates(vector<int>& nums) {
-        int num_occurances = 1;
-        int insert_idx = -1;
-        int num_duplicates = 0;
-        for (int i = 1; i < nums.size(); ++i) {
-            if (nums[i] == nums[i - 1]) {
-                num_occurances++;
-                // The number has occurred for more than twice.
-                if (num_occurances > 2) {
-                    num_duplicates++;
-                    // Mark the insertion idx for the first duplicate number.
-                    if (insert_idx == -1) {
-                        insert_idx = i;
-                    }
-                } else if (insert_idx != -1) {
-                    nums[insert_idx] = nums[i];
-                    insert_idx++;
-                }
+        int read = 0;
+        int write = 0;
+        int prev = nums[0];
+        int count = 0;
+        while (read < nums.size()) {
+            if (nums[read] == prev) {
+                count++;
             } else {
-                num_occurances = 1;
-                if (insert_idx != -1) {
-                    nums[insert_idx] = nums[i];
-                    insert_idx++;
-                }
+                count = 1;
             }
+            if (count < 3) {
+                nums[write++] = nums[read];
+            }
+            prev = nums[read];
+            read++;
         }
-        return nums.size() - num_duplicates;
+        return write;
     }
 };
 // @lc code=end
