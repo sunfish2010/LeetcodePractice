@@ -6,9 +6,33 @@
  */
 
 // @lc code=start
+#include <string>
+using namespace std;
 class Solution {
    public:
     bool isPalindrome(string s) {
+        int left = 0;
+        int right = s.size() -1;
+        const auto is_valid = [](char c){
+            return isalpha(c) || isdigit(c);
+        };
+        while(left < right){
+            while(left < right && !is_valid(s[left])){
+                left++;
+            }
+            while(left < right && !is_valid(s[right])){
+                right--;
+            }
+            if(left >= right){
+                break;
+            }
+            if(tolower(s[left]) != tolower(s[right])){
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
     }
 };
 
