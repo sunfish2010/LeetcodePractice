@@ -41,6 +41,32 @@ class Solution {
         }
     }
 };
+
+/* Python implementation
+    def numIslands(self, grid: List[List[str]]) -> int:
+        num_rows = len(grid)
+        num_cols = len(grid[0])
+        dirs = [[-1, 0], [1, 0], [0, 1], [0, -1]]
+        count = 0
+        for i in range(num_rows):
+            for j in range(num_cols):
+                if grid[i][j] == '1':
+                    grid[i][j] = '0'
+                    count += 1
+                    to_visit = [[i, j]]
+                    while len(to_visit):
+                        row = to_visit[0][0]
+                        col = to_visit[0][1]
+                        to_visit.pop(0)
+                        for dir in dirs:
+                            next_row = row + dir[0]
+                            next_col = col + dir[1] 
+                            if 0 <= next_row < num_rows and 0 <= next_col < num_cols and grid[next_row][next_col] == '1':
+                                grid[next_row][next_col] = '0'
+                                to_visit.append([next_row, next_col])
+        return count
+
+*/
 // @lc code=end
 
 /*
