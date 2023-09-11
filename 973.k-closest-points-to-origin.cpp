@@ -34,6 +34,46 @@ class Solution {
         return results;
     }
 };
+/*
+class Solution {
+   public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        if(k >= points.size()){
+            return points;
+        }
+        int left = 0;
+        int right = points.size() -1;
+        int pivot = right + 1;
+        while(pivot !=k){
+            pivot = partition(points, left, right);
+            if(pivot < k){
+                left = pivot + 1;
+            }else if (pivot > k){
+                right = pivot -1;
+            }
+        }
+        return vector<vector<int>>(points.begin(), points.begin() + k);
+        
+    }
+
+    private:
+    int partition(vector<vector<int>>& points, int left, int right){
+        static const auto dist_to_origin = [](const vector<int>& point) {
+            return point[0] * point[0] + point[1] * point[1];
+        };
+        int pivot_dist = dist_to_origin(points[right]);
+        int i = left;
+        for(int j = left; j < right;++j){
+            if(dist_to_origin(points[j]) <= pivot_dist){
+                swap(points[i++], points[j]);
+            }
+        }
+        swap(points[i], points[right]);
+        return i;
+    }
+};
+
+*/
 // @lc code=end
 
 /*
