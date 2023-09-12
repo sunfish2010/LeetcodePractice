@@ -8,7 +8,55 @@
 // @lc code=start
 
 #include <vector>
+#include <queue>
 using namespace std;
+
+class Solution {
+   public:
+    int minCostConnectPoints(vector<vector<int>>& points) {
+        int n = points.size();
+        // Compute edges and sort edges.
+        vector<int> inMST(n, false);
+        const auto dist_fcn = [](const vector<int>& point_a, const vector<int>& point_b) {
+            return abs(point_a[0] - point_b[0]) + abs(point_a[1] - point_b[1]);
+        };
+        // Keep tracks of the min distance to go to any node to dst node.
+        vector<int> min_dist(n, INT_MAX);
+        min_dist[0] = 0;
+        int total_dist = 0;
+        int curr_dist = 0;
+        int curr_node = 0;
+        int num_nodes = 0;
+        while(num_nodes < n){
+            inMST[curr_node] = true;
+            total_dist += curr_dist;
+            num_nodes++;
+            int next_node = -1;
+            int next_dist = INT_MAX;
+            for(int i = 0; i < n; ++i){
+                if(inMST[i]){
+                    continue;
+                }
+                int dist = dist_fcn(points[curr_node], points[i]);
+                if(dist < min_dist[i]){
+                    min_dist[i] = dist;
+                }
+                // When looking through next node to connect, needs to look up for the global min dist edge.
+                // Since the current edge may not gives the dist.
+                if(min_dist[i] < next_dist){
+                    next_node = i;
+                    next_dist = min_dist[i];
+                }
+            }
+            curr_node = next_node;
+            curr_dist = next_dist;
+            
+        }
+        return total_dist;
+    }
+};
+
+/*
 class UnionFind {
    public:
     UnionFind(int n) : parent(n), rank(n, 0) {
@@ -83,6 +131,8 @@ class Solution {
         return total_dist;
     }
 };
+*/
+
 // @lc code=end
 
 /*
