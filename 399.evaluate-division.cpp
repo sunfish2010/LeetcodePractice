@@ -28,7 +28,6 @@ class Solution {
             const auto& divisor = query[1];
             if (connectivity.count(dividend) == 0 || connectivity.count(divisor) == 0) {
                 results.push_back(-1.0);
-                continue;
             } else if (dividend == divisor) {
                 results.push_back(1.0);
             } else {
